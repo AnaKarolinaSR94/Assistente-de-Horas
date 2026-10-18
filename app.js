@@ -3,7 +3,7 @@
   'use strict';
 
   var L = window.Logic;
-  var APP_VERSION = '1.0.0';
+  var APP_VERSION = '1.1.0';
   var KEY = 'bancoDeHoras.v1';
   var KEY_LAST_JOB = 'bancoDeHoras.lastJob';
   var KEY_IOS_HINT = 'bancoDeHoras.iosHintDismissed';
@@ -187,7 +187,7 @@
     if (!hh) return mm + ' min';
     return mm ? hh + 'h' + mm : hh + 'h';
   }
-  var QUICK = [30, 60, 90, 120, 150, 180, 240, 300, 360, 480];
+  var QUICK = [90, 105, 180, 480, 660]; // 1h30, 1h45, 3h, 8h, 11h
 
   function durationPicker(initial, onChange) {
     var minutes = 0;
@@ -333,8 +333,6 @@
       if (!L.isValidISO(home.date.value)) { home.date.value = ui.date; return; }
       ui.date = home.date.value; ui.dateTouched = true; home.syncDay();
     });
-    function setDate(iso) { ui.date = iso; ui.dateTouched = true; home.date.value = iso; home.syncDay(); }
-    home.setDate = setDate;
     home.dur = durationPicker(0);
     home.note = noteField();
     home.noteOnly = h('button', { class: 'btn btn-secondary', type: 'button', disabled: true, onclick: saveNoteOnly }, 'Salvar só a observação');
@@ -347,11 +345,7 @@
     root.appendChild(h('section', { class: 'card' },
       h('h2', null, 'Novo lançamento'),
       field('Emprego', '', home.jobPicker.el),
-      field('Data', '', h('div', { class: 'date-row' },
-        home.date,
-        h('button', { class: 'chip', type: 'button', onclick: function () { setDate(L.todayISO()); } }, 'Hoje'),
-        h('button', { class: 'chip', type: 'button', onclick: function () { setDate(L.addDays(L.todayISO(), -1)); } }, 'Ontem')),
-        home.dayHint),
+      field('Data', '', home.date, home.dayHint),
       field('Duração', '', home.dur.el),
       field('Observação do dia', '(opcional)', home.note.el),
       h('div', { class: 'btn-row' }, home.saveBtn, home.noteOnly)));
@@ -855,7 +849,7 @@
     root.appendChild(h('section', { class: 'card' },
       h('h2', null, 'Observações prontas'),
       sett.tplChips,
-      h('div', { class: 'date-row', style: 'margin-top:12px; grid-template-columns: 1fr auto' },
+      h('div', { style: 'margin-top:12px; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center' },
         sett.tplInput,
         h('button', { class: 'chip', type: 'button', onclick: addTpl }, 'Adicionar'))));
     root.appendChild(h('section', { class: 'card' },

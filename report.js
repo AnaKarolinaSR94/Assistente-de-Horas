@@ -8,9 +8,11 @@
 
   var INK = [16, 24, 40];
   var MUTED = [91, 102, 114];
-  var BRAND = [36, 56, 214];
+  var BRAND = [43, 45, 49];      // cabeçalho cinza-escuro
+  var ACCENT = [16, 163, 111];   // menta mais escura, legível no papel
   var LINE = [208, 214, 224];
-  var ZEBRA = [243, 245, 250];
+  var ZEBRA = [243, 246, 245];
+  var SOFT = [225, 244, 236];    // fundo claro de totais
 
   // As fontes padrão do PDF só cobrem Latin-1 + alguns símbolos. O resto é simplificado
   // (ex.: "ł" vira "l") para nunca sair texto quebrado no relatório.
@@ -47,7 +49,7 @@
       doc.text('Nome: ' + pdfSafe(opts.name), M, y); y += 5.5;
     }
     doc.text('Período: de ' + Logic.formatDateBR(report.start) + ' a ' + Logic.formatDateBR(report.end), M, y);
-    doc.setDrawColor(BRAND[0], BRAND[1], BRAND[2]); doc.setLineWidth(0.8);
+    doc.setDrawColor(ACCENT[0], ACCENT[1], ACCENT[2]); doc.setLineWidth(0.8);
     doc.line(M, y + 4, pageW - M, y + 4);
 
     // Tabela principal: uma linha por dia e serviço
@@ -82,7 +84,7 @@
       showFoot: 'lastPage',
       styles: { font: 'helvetica', fontSize: 9.5, cellPadding: { top: 2.4, bottom: 2.4, left: 2.6, right: 2.6 }, textColor: INK, lineColor: LINE, lineWidth: 0.1, valign: 'middle' },
       headStyles: { fillColor: BRAND, textColor: [255, 255, 255], fontStyle: 'bold', lineColor: BRAND },
-      footStyles: { fillColor: [226, 232, 255], textColor: INK, fontStyle: 'bold', fontSize: 10.5 },
+      footStyles: { fillColor: SOFT, textColor: INK, fontStyle: 'bold', fontSize: 10.5 },
       columnStyles: {
         date: { cellWidth: 25 },
         weekday: { cellWidth: 22 },
@@ -144,7 +146,7 @@
         columns: cols,
         body: rows,
         styles: { font: 'helvetica', fontSize: 9.5, cellPadding: { top: 2.2, bottom: 2.2, left: 2.6, right: 2.6 }, textColor: INK, lineColor: LINE, lineWidth: 0.1 },
-        headStyles: { fillColor: [226, 232, 255], textColor: INK, fontStyle: 'bold', lineColor: LINE },
+        headStyles: { fillColor: SOFT, textColor: INK, fontStyle: 'bold', lineColor: LINE },
         columnStyles: { name: { cellWidth: 48 }, address: { cellWidth: 'auto' }, days: { cellWidth: 16, halign: 'right' }, hours: { cellWidth: 22, halign: 'right', fontStyle: 'bold' } },
         didParseCell: function (data) {
           if (data.section === 'head' && (data.column.dataKey === 'days' || data.column.dataKey === 'hours')) data.cell.styles.halign = 'right';

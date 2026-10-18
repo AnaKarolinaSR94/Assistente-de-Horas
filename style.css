@@ -1,37 +1,22 @@
-/* Banco de Horas — visual de relógio de ponto: painel azul-cobalto com dígitos âmbar como peça central,
-   o resto fica calmo e plano. */
+/* Banco de Horas — tema escuro fixo (tons de preto e cinza), destaque em verde menta.
+   Peça central: o painel de duração, que fica cinza enquanto vazio e acende em menta quando as horas são escolhidas. */
 :root {
-  --bg: #E8ECF1;
-  --surface: #FFFFFF;
-  --ink: #101828;
-  --muted: #5B6672;
-  --brand: #2438D6;
-  --brand-ink: #FFFFFF;
-  --panel-top: #1F31B8;
-  --panel-bot: #142088;
-  --amber: #FFC83D;
-  --line: #D0D6E0;
-  --chip: #EEF1F6;
-  --danger: #B42318;
-  --note-bg: #FFF4D1;
-  --note-ink: #5C4400;
+  color-scheme: dark;
+  --bg: #1E1F22;          /* fundo da página */
+  --surface: #2B2D31;     /* cartões */
+  --input: #1E1F22;       /* campos de texto (poço mais escuro) */
+  --chip: #3A3C43;        /* botões secundários */
+  --ink: #F2F3F5;
+  --muted: #A3A8B1;
+  --brand: #34D399;       /* menta */
+  --brand-ink: #062A1C;   /* texto sobre a menta */
+  --line: #3A3C42;
+  --line-strong: #52555E;
+  --danger: #F87171;
+  --note-bg: rgba(52, 211, 153, .14);
+  --note-ink: #A7F0CF;
   --tab-h: 62px;
   --font: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, system-ui, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0D1120;
-    --surface: #171C2F;
-    --ink: #EEF1F8;
-    --muted: #9AA4B7;
-    --brand: #8393FF;
-    --brand-ink: #0D1120;
-    --line: #2A3249;
-    --chip: #222942;
-    --danger: #FF8E84;
-    --note-bg: #3A2F0B;
-    --note-ink: #FFE29A;
-  }
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -84,27 +69,25 @@ button { cursor: pointer; }
 .label small { font-weight: 500; color: var(--muted); }
 .input, .select {
   display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 50px; padding: 11px 14px;
-  background: var(--chip); border: 1.5px solid transparent; border-radius: 13px;
+  background: var(--input); border: 1.5px solid var(--line); border-radius: 13px;
   font-size: 16px; -webkit-appearance: none; appearance: none; text-align: left;
 }
-.input:focus, .select:focus { outline: none; border-color: var(--brand); background: var(--surface); }
+.input:focus, .select:focus { outline: none; border-color: var(--brand); }
 textarea.input { resize: vertical; min-height: 76px; }
 input[type="date"].input { min-width: 0; max-width: 100%; }
 input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
 .select {
   padding-right: 38px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%235B6672' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%23A3A8B1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 14px center;
 }
 .row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .row2 > * { min-width: 0; }
-.date-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
-.date-row > * { min-width: 0; }
 
 /* ---------- chips ---------- */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
-  border: 1.5px solid var(--line); background: var(--surface); color: var(--ink);
+  border: 1.5px solid var(--line-strong); background: transparent; color: var(--ink);
   border-radius: 999px; padding: 9px 15px; font-weight: 650; font-size: 15px; min-height: 42px;
 }
 .chip.on { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
@@ -134,14 +117,17 @@ input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
 
 /* ---------- painel de duração (relógio de ponto) ---------- */
 .panel {
-  background: linear-gradient(180deg, var(--panel-top), var(--panel-bot));
-  border-radius: 20px; padding: 16px 18px 14px; margin-bottom: 12px; text-align: center;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
+  background: #111214; border: 1px solid var(--line); border-radius: 20px;
+  padding: 16px 18px 14px; margin-bottom: 12px; text-align: center;
 }
-.readout { color: var(--amber); font-size: 60px; line-height: 1; font-weight: 800; letter-spacing: -0.03em; }
+.readout {
+  color: var(--brand); font-size: 60px; line-height: 1; font-weight: 800; letter-spacing: -0.03em;
+  text-shadow: 0 0 28px rgba(52, 211, 153, .35);
+  transition: color .3s ease, text-shadow .3s ease;
+}
 .readout .u { font-size: 30px; font-weight: 700; margin: 0 3px; opacity: .85; letter-spacing: 0; }
-.readout.empty { color: rgba(255, 200, 61, .42); }
-.panel-cap { margin-top: 6px; font-size: 13px; color: rgba(255,255,255,.72); }
+.readout.empty { color: #5E626B; text-shadow: none; }
+.panel-cap { margin-top: 6px; font-size: 13px; color: var(--muted); }
 .quick { margin-bottom: 12px; }
 
 /* ---------- listas ---------- */
@@ -192,7 +178,7 @@ input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
 .kv span:last-child { font-weight: 750; text-align: right; }
 
 /* avisos */
-.banner { background: var(--note-bg); color: var(--note-ink); border-radius: 16px; padding: 14px 16px; margin-bottom: 14px; font-size: 15px; }
+.banner { background: var(--note-bg); color: var(--note-ink); border: 1px solid rgba(52, 211, 153, .3); border-radius: 16px; padding: 14px 16px; margin-bottom: 14px; font-size: 15px; }
 .banner strong { display: block; margin-bottom: 2px; }
 .banner .link-btn { color: inherit; text-decoration: underline; padding-left: 0; }
 
@@ -211,7 +197,7 @@ input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
 .tab svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .tab[aria-current="page"] { color: var(--brand); }
 .tab[aria-current="page"]::before {
-  content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px; background: var(--amber);
+  content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px; background: var(--brand);
 }
 
 /* ---------- aviso rápido ---------- */
@@ -219,18 +205,18 @@ input[type="date"].input::-webkit-date-and-time-value { text-align: left; }
   position: fixed; left: 50%; bottom: calc(var(--tab-h) + env(safe-area-inset-bottom) + 14px); z-index: 60;
   transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
   width: calc(100% - 28px); max-width: 520px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  background: #101828; color: #fff; padding: 13px 16px; border-radius: 14px; font-size: 15px; font-weight: 600;
+  background: #383A40; color: var(--ink); border: 1px solid var(--line-strong); padding: 13px 16px; border-radius: 14px; font-size: 15px; font-weight: 600; box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
   transition: opacity .18s, transform .18s;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
-.toast-action { pointer-events: auto; background: none; border: 0; color: var(--amber); font-weight: 800; font-size: 15px; padding: 6px 4px; white-space: nowrap; }
+.toast-action { pointer-events: auto; background: none; border: 0; color: var(--brand); font-weight: 800; font-size: 15px; padding: 6px 4px; white-space: nowrap; }
 
 /* ---------- janelas (sheets) ---------- */
 .layer { position: fixed; inset: 0; z-index: 50; }
-.backdrop { position: absolute; inset: 0; background: rgba(8, 12, 28, .5); opacity: 0; transition: opacity .2s; }
+.backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, .62); opacity: 0; transition: opacity .2s; }
 .sheet {
   position: absolute; left: 0; right: 0; bottom: 0; margin: 0 auto; max-width: 560px; max-height: 92vh; max-height: 92dvh;
-  display: flex; flex-direction: column; background: var(--bg); border-radius: 24px 24px 0 0;
+  display: flex; flex-direction: column; background: var(--bg); border: 1px solid var(--line); border-bottom: 0; border-radius: 24px 24px 0 0;
   transform: translateY(100%); transition: transform .24s cubic-bezier(.2, .8, .2, 1);
 }
 .layer.open .backdrop { opacity: 1; }

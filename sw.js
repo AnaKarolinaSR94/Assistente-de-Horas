@@ -1,6 +1,6 @@
 /* Service worker: guarda os arquivos do app no aparelho para funcionar sem internet.
    Dica: ao publicar uma atualização, troque o número da VERSION para o aparelho baixar tudo de novo. */
-var VERSION = 'banco-de-horas-1.0.0';
+var VERSION = 'banco-de-horas-1.1.0';
 var ASSETS = [
   './', 'index.html', 'style.css', 'app.js', 'logic.js', 'report.js',
   'lib/jspdf.umd.min.js', 'lib/jspdf.plugin.autotable.min.js',
